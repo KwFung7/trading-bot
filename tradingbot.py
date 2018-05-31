@@ -98,11 +98,13 @@ for instrument in instruments:
     
     # Logic
     if tradeable:
+        # Create Order
         if make_profit:
-            # Create Order
-            order_res = orders.createOrder(str(-units), instrument)
+            # 'Sell' Logic
+            # - sell all units when profit higher than min config
             diff = bid - average_price
             profit = diff * units
+            order_res = orders.createOrder(str(-units), instrument)
             print('Trading bot sold all {}, around {} units, earn for {}'.format(instrument, units, profit))
         elif is_rising and is_cheaper and below_limit:
             # 'Buy' Logic
