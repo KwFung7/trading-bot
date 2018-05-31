@@ -35,6 +35,7 @@ granularity = config['GRANULARITY']
 kernel = config['SVR_KERNEL']
 limit_unit = int(config['LIMIT_UNIT'])
 order_unit = int(config['ORDER_UNIT'])
+min_profit = float(config['MIN_PROFIT'])
 
 # Get current price
 now = datetime.datetime.now()
@@ -93,7 +94,7 @@ for instrument in instruments:
     is_rising = predict_wk > ask
     is_cheaper = average_price > ask if average_price is not None else ten_day_mean > ask
     below_limit = limit_unit >= order_unit + units
-    make_profit = bid > average_price if average_price is not None else False
+    make_profit = bid > average_price + min_profit if average_price is not None else False
     
     # Logic
     if tradeable:
