@@ -13,15 +13,18 @@ Created on Sun May 20 13:59:59 2018
 import configparser
 from oandapyV20 import API
 
-def loadConfig():
-    # Load config
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    mode = config['ENV']['MODE']
-    return config[mode]
+class Connection:
+    config = {}
+    API = None
 
-def init():
-    config = loadConfig()
-    environment = config['TYPE']
-    access_token = config['AUTH_TOKEN']
-    return API(access_token, environment)
+    def __init__(self):
+        # Load config
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        mode = config['ENV']['MODE']
+        Connection.config = config[mode]
+        
+        # Load API
+        environment = Connection.config['TYPE']
+        access_token = Connection.config['AUTH_TOKEN']
+        Connection.API = API(access_token, environment)

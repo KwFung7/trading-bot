@@ -10,17 +10,15 @@
 Created on Sun May 20 02:55:12 2018
 @author: KwFung
 """
-import connection
+from connection import Connection
 import oandapyV20.endpoints.instruments as instruments
 
 def getData(instrument, day, granularity):    
-    # Load account
-    api = connection.init()
-    
     # Request
+    connection = Connection()
     params = {"count": day, "granularity": granularity}
     r = instruments.InstrumentsCandles(instrument, params)
-    return api.request(r)
+    return connection.API.request(r)
 
 
 

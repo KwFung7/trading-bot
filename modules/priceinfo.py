@@ -10,25 +10,23 @@
 Created on Sun May 20 00:35:12 2018
 @author: KwFung
 """
-import connection
+from connection import Connection
 import oandapyV20.endpoints.pricing as pricing
 
 
 def getCurrentPrice(instrument):
     # Load config
-    config = connection.loadConfig()
-    accountID = config['ACCOUNT_ID']
-    
-    # Load account
-    api = connection.init()
+    connection = Connection()
+    accountID = connection.config['ACCOUNT_ID']
     
     # Request
     params = {"instruments": instrument}
     r = pricing.PricingInfo(accountID, params)
-    return api.request(r)
+    return connection.API.request(r)
 
 def parsePriceInfo(price_info):
     currencies = {}
+
     for currency in price_info['prices']:
         # Extract the currency information
         instrument = currency['instrument']

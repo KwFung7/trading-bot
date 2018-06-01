@@ -11,16 +11,13 @@ Created on Tue May 22 23:46:41 2018
 @author: KwFung
 """
 import json
-import connection
+from connection import Connection
 import oandapyV20.endpoints.orders as orders
 
 def createOrder(units, instrument):
     # Load config
-    config = connection.loadConfig()
-    accountID = config['ACCOUNT_ID']
-
-    # Load account
-    api = connection.init()
+    connection = Connection()
+    accountID = connection.config['ACCOUNT_ID']
     
     # Load json
     with open('orderbody.json', 'r') as f:
@@ -33,5 +30,4 @@ def createOrder(units, instrument):
     
     # Request
     r = orders.OrderCreate(accountID, data)
-    return api.request(r)
-
+    return connection.API.request(r)
