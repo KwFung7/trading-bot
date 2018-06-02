@@ -56,6 +56,7 @@ for instrument in instruments:
         x = candlesparser.getOrdinalDate(candles)
         x = np.vstack(x)
         y = candlesparser.getOHLC(candles)
+        y = np.vstack(y)
         
         # Build random svr model and store it in dict
         result = svr.buildModel(x, y, instrument, kernel)

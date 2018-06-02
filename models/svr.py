@@ -50,7 +50,6 @@ def buildModel(x, y, instrument, kernel):
     print('Predict {} for {} days: {}'.format(instrument, MONTH, y_pred_mth))
     
     # Visualising the SVR results (for higher resolution and smoother curve)
-    '''
     x_grid = np.arange(min(trans_x), max(trans_x), 0.01)
     x_grid = x_grid.reshape((len(x_grid), 1))
     plt.scatter(trans_x, trans_y, s = 5, c = 'red')
@@ -59,7 +58,7 @@ def buildModel(x, y, instrument, kernel):
     plt.xlabel('Datetime')
     plt.ylabel(instrument)
     plt.show()
-    '''
+
     print('\n')
     
     return {
