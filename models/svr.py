@@ -42,9 +42,9 @@ def buildModel(x, y, instrument, kernel):
     MONTH = 30
     predict_wk = x[len(x) - 1] + WEEK
     predict_mth = x[len(x) - 1] + MONTH
-    y_pred_wk = regressor.predict(sc_x.transform(np.array(predict_wk)))
+    y_pred_wk = regressor.predict(sc_x.transform(np.vstack(np.array(predict_wk))))
     y_pred_wk = float(sc_y.inverse_transform(y_pred_wk)[0])
-    y_pred_mth = regressor.predict(sc_x.transform(np.array(predict_mth)))
+    y_pred_mth = regressor.predict(sc_x.transform(np.vstack(np.array(predict_mth))))
     y_pred_mth = float(sc_y.inverse_transform(y_pred_mth)[0])
     print('Predict {} for {} days: {}'.format(instrument, WEEK, y_pred_wk))
     print('Predict {} for {} days: {}'.format(instrument, MONTH, y_pred_mth))
