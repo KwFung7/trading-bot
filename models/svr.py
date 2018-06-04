@@ -15,15 +15,19 @@ Created on Mon May 21 21:51:38 2018
 # Importing the libraries
 import numpy as np
 import matplotlib.pyplot as plt
+from connection import Connection
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 
 def buildModel(x, y, instrument, kernel):
     print('Day range: {}'.format(len(x)))
     
-    last_ten = y[-10:]
-    ten_day_mean = np.mean(last_ten)
-    print('Last 10 days mean of OHLC: {}'.format(ten_day_mean))
+    # mean for last N day
+    connection = Connection()
+    day_for_mean = int(connection.config['DAY_FOR_MEAN'])
+    prev_data = y[-day_for_mean:]
+    day_mean = np.mean(prev_data)
+    print('Last {} days mean of OHLC: {}'.format(day_for_mean, day_mean))
     
     # Feature Scaling
     sc_x = StandardScaler()
@@ -67,5 +71,5 @@ def buildModel(x, y, instrument, kernel):
         "score": r_square,
         "predict_wk": y_pred_wk,
         "predict_mth": y_pred_mth,
-        "ten_day_mean": ten_day_mean
+        "day_mean": day_mean
     }

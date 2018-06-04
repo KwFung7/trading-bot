@@ -77,7 +77,7 @@ print('************ Results ************\n')
 for instrument in instruments:
     # Regressor predict
     predict_wk = regressors[instrument][selected_range]['predict_wk']
-    ten_day_mean = regressors[instrument][selected_range]['ten_day_mean']
+    day_mean = regressors[instrument][selected_range]['day_mean']
     
     # Current Info
     tradeable = currencies[instrument]['tradeable']
@@ -94,7 +94,7 @@ for instrument in instruments:
         
     # Flag
     is_rising = predict_wk > ask
-    below_mean = ten_day_mean > ask
+    below_mean = day_mean > ask
     is_cheaper = average_price > ask if average_price is not None else below_mean
     below_limit = limit_unit >= order_unit + units
     make_profit = bid > average_price + min_profit if average_price is not None else False
