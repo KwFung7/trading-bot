@@ -13,6 +13,7 @@ Created on Sun May 20 13:39:06 2018
 import numpy as np
 import datetime
 import warnings
+import pprint
 from connection import Connection
 from helpers import candlesparser
 from models import svr
@@ -51,13 +52,14 @@ print('************ Account ************\n')
 summary = accountsummary.getSummary()
 account = summary['account']
 available_margin = float(account['marginAvailable'])
-print('Account Summary: {}\n'.format(summary))
+print('Account Summary:')
+pprint.pprint(summary)
 
 
 # Loop different day range
 # Get last N days candles
 regressors = {}
-print('************ Regression ************\n')
+print('\n************ Regression ************\n')
 for instrument in instruments:
     for day in day_range:
         data = historicaldata.getData(instrument, day, granularity)
@@ -79,8 +81,9 @@ for instrument in instruments:
 # Get Account open position
 position_res = positions.getOpenPosition()
 print('************ Positions ************\n')
-print('Get Account Open Position: {}\n'.format(position_res))
-print('************ Results ************\n')
+print('Account Open Position:')
+pprint.pprint(position_res)
+print('\n************ Results ************\n')
 
 
 # Strategy
