@@ -20,6 +20,7 @@ from modules import orders
 from modules import positions
 from modules import priceinfo
 from modules import historicaldata
+from modules import accountsummary
 from sklearn.exceptions import DataConversionWarning
 
 # for 1d array deprecation warning
@@ -37,12 +38,21 @@ kernel = config['SVR_KERNEL']
 limit_unit = int(config['LIMIT_UNIT'])
 order_unit = int(config['ORDER_UNIT'])
 min_profit = float(config['MIN_PROFIT'])
+limit_margin = int(config['LIMIT_MARGIN'])
 
 # Get current price
 now = datetime.datetime.now()
 print('************ {} ************\n'.format(str(now)))
 price_info = priceinfo.getCurrentPrice(config['INSTRUMENTS'])
 currencies = priceinfo.parsePriceInfo(price_info)
+
+# Account summary
+print('************ Account ************\n')
+summary = accountsummary.getSummary()
+account = summary['account']
+available_margin = float(account['marginAvailable'])
+print('Account Summary: {}\n'.format(summary))
+
 
 # Loop different day range
 # Get last N days candles
@@ -98,6 +108,7 @@ for instrument in instruments:
     is_cheaper = average_price > ask if average_price is not None else below_mean
     below_limit = limit_unit >= order_unit + units
     make_profit = bid > average_price + min_profit if average_price is not None else False
+    no_margin = available_margin < limit_margin
     
     # Logic
     if tradeable:
@@ -109,6 +120,9 @@ for instrument in instruments:
             profit = diff * units
             order_res = orders.createOrder(str(-units), instrument)
             print('Trading bot sold all {}, around {} units, earn for {}'.format(instrument, units, profit))
+        elif no_margin:
+            # no enough margin
+            print('Account dont have enough available margin for trading {}.')
         elif is_rising and is_cheaper and below_limit:
             # 'Buy' Logic
             # - Future trend, currency rising
