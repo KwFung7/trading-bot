@@ -3,7 +3,7 @@ Using Oanda API for forex currency data and order creation.
 Data fetched from API used for machine learning model training (SVR).
 
 #### Direct run
-> python ./tradingbot.py
+> /usr/bin/python3.6 ./tradingbot.py
 
 #### Cron Job
 Suppose to run with cron job every hour:
@@ -40,12 +40,12 @@ SVR_KERNEL=rbf
 ```
 
 #### Config usage
-Account
+- Account
     - TYPE: can be 'practice' or 'live'
     - ACCOUNT_ID: Oanda account id with 16 digit
     - AUTH_TOKEN: token for authentication, get it from Oanda
 
-Order
+- Order
     - INSTRUMENTS: type of currency for trading, separated with comma e.g. USD_HKD,EUR_HKD
     - DAY_RANGE: day range for data used in regression, can be multiple e.g. 100,500 
     - SELECTED_RANGE: selected day range for data used in actual prediction
@@ -55,7 +55,7 @@ Order
     - DAY_FOR_MEAN: number of day for calculating mean value, which affect the buy decision
     - LIMIT_MARGIN: bot can stop the trade when the available margin less than this value
     
-Model
+- Model
     - GRANULARITY: check https://developer.oanda.com/, it mean 1 day candlestick for 'D'
     - TREE_NUMBER: for random forest used (DEPRECATED)
     - SVR_KERNEL: for support vector regression kernel    
