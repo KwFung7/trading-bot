@@ -40,6 +40,7 @@ limit_unit = int(config['LIMIT_UNIT'])
 order_unit = int(config['ORDER_UNIT'])
 min_profit = float(config['MIN_PROFIT'])
 limit_margin = int(config['LIMIT_MARGIN'])
+cut_loss_percent = float(config['CUT_LOSS_PERCENT'])
 
 # Get current price
 now = datetime.datetime.now()
@@ -111,6 +112,7 @@ for instrument in instruments:
     is_cheaper = average_price > ask if average_price is not None else below_mean
     below_limit = limit_unit >= order_unit + units
     make_profit = bid > average_price + min_profit if average_price is not None else False
+    cut_loss = bid < average_price * cut_loss_percent if average_price is not None else False
     no_margin = available_margin < limit_margin
     
     # Logic
@@ -123,6 +125,13 @@ for instrument in instruments:
             profit = diff * units
             order_res = orders.createOrder(str(-units), instrument)
             print('Trading bot sold all {}, around {} units, earn for {}'.format(instrument, units, profit))
+        elif cut_loss:
+            # Cut Loss Logic
+            # - sell all units when bid price lower than cut loss percentage
+            diff = average_price - bid
+            loss = diff * units
+            order_res = orders.createOrder(str(-units), instrument)
+            print('Trading bot sold all {}, around {} units, loss for {}'.format(instrument, units, loss))
         elif no_margin:
             # no enough margin
             print('Account dont have enough available margin for trading {}.')
