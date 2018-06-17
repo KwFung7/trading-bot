@@ -4,7 +4,7 @@ Data fetched from API used for machine learning model training (SVR).
 
 ![alt text](https://s3-ap-southeast-1.amazonaws.com/kwfxng-portfolio-image/tradingbot-code-1.png "Demo Image 1")
 
-![alt text](https://s3-ap-southeast-1.amazonaws.com/kwfxng-portfolio-image/tradingbot-code-2.gif "Demo Image 2")
+![image](https://s3-ap-southeast-1.amazonaws.com/kwfxng-portfolio-image/tradingbot-code-2.gif)
 
 #### Direct run
 > /usr/bin/python3.6 ./tradingbot.py
