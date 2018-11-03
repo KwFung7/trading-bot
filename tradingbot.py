@@ -134,7 +134,7 @@ for instrument in instruments:
             print('Trading bot sold all {}, around {} units, loss for {}'.format(instrument, units, loss))
         elif no_margin:
             # no enough margin
-            print('Account dont have enough available margin for trading {}.')
+            print('Account dont have enough available margin for trading.')
         elif is_rising and is_cheaper and below_limit:
             # 'Buy' Logic
             # - Future trend, currency rising

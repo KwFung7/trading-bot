@@ -2,6 +2,10 @@
 Using Oanda API for forex currency data and order creation.
 Data fetched from API used for machine learning model training (SVR).
 
+![alt text](https://s3-ap-southeast-1.amazonaws.com/kwfxng-portfolio-image/tradingbot-code-1.png "Demo Image 1")
+
+![image](https://s3-ap-southeast-1.amazonaws.com/kwfxng-portfolio-image/tradingbot-code-2.gif)
+
 #### Direct run
 > /usr/bin/python3.6 ./tradingbot.py
 
