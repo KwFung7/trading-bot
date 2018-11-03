@@ -32,7 +32,7 @@ ORDER_UNIT=500
 MIN_PROFIT=0.03
 DAY_FOR_MEAN=5
 LIMIT_MARGIN=1000
-CUT_LOSS_PERCENT=0.97
+CUT_LOSS_LIMIT=0.03
 
 # Model
 GRANULARITY=D
@@ -55,7 +55,7 @@ SVR_KERNEL=rbf
     - MIN_PROFIT: allow selling only when minimum profit meet
     - DAY_FOR_MEAN: number of day for calculating mean value, which affect the buy decision
     - LIMIT_MARGIN: bot can stop the trade when the available margin less than this value
-    - CUT_LOSS_PERCENT: bot can stop the loss when bid price lower than current percentage
+    - CUT_LOSS_LIMIT: bot can stop the loss when loss is larger than limit
     
 - Model
     - GRANULARITY: check https://developer.oanda.com/, it mean 1 day candlestick for 'D'

@@ -40,7 +40,7 @@ limit_unit = int(config['LIMIT_UNIT'])
 order_unit = int(config['ORDER_UNIT'])
 min_profit = float(config['MIN_PROFIT'])
 limit_margin = int(config['LIMIT_MARGIN'])
-cut_loss_percent = float(config['CUT_LOSS_PERCENT'])
+cut_loss_limit = float(config['CUT_LOSS_LIMIT'])
 
 # Get current price
 now = datetime.datetime.now()
@@ -112,7 +112,7 @@ for instrument in instruments:
     is_cheaper = average_price > ask if average_price is not None else below_mean
     below_limit = limit_unit >= order_unit + units
     make_profit = bid > average_price + min_profit if average_price is not None else False
-    cut_loss = bid < average_price * cut_loss_percent if average_price is not None else False
+    cut_loss = bid < average_price - cut_loss_limit if average_price is not None else False
     no_margin = available_margin < limit_margin
     
     # Logic
