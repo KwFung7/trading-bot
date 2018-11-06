@@ -1,0 +1,9 @@
+{
+  "order": {
+    "units": "",
+    "instrument": "",      
+    "timeInForce": "FOK",
+    "type": "MARKET",
+    "positionFill": "DEFAULT"
+  }
+}
