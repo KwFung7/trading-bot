@@ -14,6 +14,8 @@ import numpy as np
 import datetime
 import warnings
 import pprint
+import json
+import time
 from connection import Connection
 from helpers import candlesparser
 from models import svr
@@ -56,29 +58,46 @@ available_margin = float(account['marginAvailable'])
 print('Account Summary:')
 pprint.pprint(summary)
 
-
-# Loop different day range
-# Get last N days candles
-regressors = {}
+# Run regression once per day
 print('\n************ Regression ************\n')
-for instrument in instruments:
-    for day in day_range:
-        data = historicaldata.getData(instrument, day, granularity)
-        candles = data['candles']
-        date_list = candlesparser.getDate(candles)
-        x = candlesparser.getOrdinalDate(candles)
-        x = np.vstack(x)
-        y = candlesparser.getOHLC(candles)
-        y = np.vstack(y)
-        
-        # Build random svr model and store it in dict
-        result = svr.buildModel(x, y, instrument, kernel)
-        if instrument in regressors.keys():
-            regressors[instrument][day] = result
-        else:
-            regressors[instrument] = {}
-            regressors[instrument][day] = result
+regressors = {}
+today = time.strftime("%Y-%m-%d", time.localtime())
+with open('svrdate.txt', 'r') as f:
+    last_record_date = f.read()
+with open('record.json', 'r') as f:
+    last_record = json.load(f)
+
+if today == last_record_date and last_record:
+    # Get regression data when regression already run today
+    regressors = last_record
+    print('Already run regression in {}.\n'.format(today))
+else:
+    # Loop different day range
+    # Get last N days candles
+    for instrument in instruments:
+        for day in day_range:
+            data = historicaldata.getData(instrument, day, granularity)
+            candles = data['candles']
+            date_list = candlesparser.getDate(candles)
+            x = candlesparser.getOrdinalDate(candles)
+            x = np.vstack(x)
+            y = candlesparser.getOHLC(candles)
+            y = np.vstack(y)
             
+            # Build random svr model and store it in dict
+            result = svr.buildModel(x, y, instrument, kernel)
+            if instrument in regressors.keys():
+                regressors[instrument][day] = result
+            else:
+                regressors[instrument] = {}
+                regressors[instrument][day] = result
+
+    # Record the regression data
+    with open('record.json', 'w') as f:
+        json.dump(regressors, f)
+    with open('svrdate.txt', 'w') as f:
+        f.write(today)
+
 # Get Account open position
 position_res = positions.getOpenPosition()
 print('************ Positions ************\n')
