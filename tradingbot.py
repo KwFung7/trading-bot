@@ -94,7 +94,7 @@ else:
 
     # Record the regression data
     with open('record.json', 'w') as f:
-        json.dump(regressors, f)
+        f.write(json.dumps(regressors, indent = 2))
     with open('svrdate.txt', 'w') as f:
         f.write(today)
 

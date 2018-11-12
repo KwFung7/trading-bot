@@ -67,7 +67,6 @@ def buildModel(x, y, instrument, kernel):
     print('\n')
     
     return {
-        "regressor": regressor,
         "score": r_square,
         "predict_wk": y_pred_wk,
         "predict_mth": y_pred_mth,
