@@ -108,8 +108,8 @@ for instrument in instruments:
         
     # Flag
     is_rising = predict_wk > ask
-    below_mean = day_mean > ask
-    is_cheaper = average_price > ask if average_price is not None else below_mean
+    above_mean = day_mean < ask
+    is_cheaper = average_price > ask if average_price is not None else above_mean
     below_limit = limit_unit >= order_unit + units
     make_profit = bid > average_price + min_profit if average_price is not None else False
     cut_loss = bid < average_price - cut_loss_limit if average_price is not None else False
@@ -138,8 +138,8 @@ for instrument in instruments:
         elif is_rising and is_cheaper and below_limit:
             # 'Buy' Logic
             # - Future trend, currency rising
-            # - Cheaper than previous order 
-            # - OR lower than 10 day average at first purchase
+            # - AND Cheaper than previous order 
+            # - OR exceed N day average at first purchase
             # - Wont order too much on single currency
 
             # Create Order
